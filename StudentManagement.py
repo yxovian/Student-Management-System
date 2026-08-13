@@ -46,12 +46,20 @@ def search_student():
     if not students:
         print("No Students Found")
         return
+
+    students.sort(key=lambda student: student["id"])
     
     student_id = int(input("Enter Student ID: ").strip())
 
-    for student in students:
+    left = 0
+    right = len(students) - 1
 
-        if student["id"] == student_id:
+    while left <= right:
+        middle = (left + right) // 2
+
+        if students[middle]["id"] == student_id :
+            student = students[middle]
+
             print("\nStudent Found")
             print("ID", student["id"])
             print("Name", student["name"])
@@ -61,6 +69,11 @@ def search_student():
 
             return
         
+        elif students[middle]["id"] < student_id:
+            left = middle + 1
+        else:    
+            right = middle - 1
+
     print("Student Not Found") 
 
 def update_student():
@@ -109,20 +122,21 @@ def main():
 
         choice = input("Enter Your Choice: ").strip()
 
-        if choice == "1":
-            add_student()
-        elif choice == "2":
-            view_students()
-        elif choice == "3":
-            search_student() 
-        elif choice == "4":
-            update_student()
-        elif choice == "5":
-            delete_student()
-        elif choice == "6":
-            print("Exit")
-            break
-        else:
-            print("Invalid Choice")
-
+        match choice:
+            case "1":
+                add_student()
+            case "2":
+                view_students()
+            case "3":
+                search_student()
+            case "4":
+                update_student()
+            case "5":
+                delete_student()
+            case "6":
+                print("Exit")
+                break
+            case "_":                                  
+                print("Invalid Choice")
+                   
 main()
