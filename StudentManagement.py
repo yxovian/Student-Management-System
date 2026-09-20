@@ -10,8 +10,40 @@ def show_menu():
     print("6. Exit")
     print("========================================================")
 
+def get_int(message):
+    while True:
+        try:
+            return int(input(message).strip())
+        except ValueError:
+            print("Please enter a valid number")
+
+def validation_id(message):
+    while True:
+        student_id = get_int(message)
+
+        if student_id > 0:
+            return student_id
+        else:
+            print("Student ID Must be grater 0")
+    
+def get_float(message):
+    while True:
+        try:
+            return float(input(message).strip())
+        except ValueError:
+            print("Please enter a valid number")
+
+def get_gpa():
+    while True:
+        gpa = get_float("Student GPA: ")       
+
+        if 0 <= gpa <= 4:
+            return gpa
+        else:
+            print("GPA Must be between 0 and 4")     
+
 def add_student():
-    student_id = int(input("Student ID: ").strip())
+    student_id = validation_id("Student ID: ")
 
     for student in students:
         if student["id"] == student_id:
@@ -23,7 +55,7 @@ def add_student():
     student["id"] = student_id
     student["name"] = input("Student Name: ").strip()
     student["department"] = input("Student Department: ").strip()
-    student["gpa"] = float(input("Student GPA: ").strip())
+    student["gpa"] = get_gpa()
 
     students.append(student)
 
@@ -49,7 +81,7 @@ def search_student():
 
     students.sort(key=lambda student: student["id"])
     
-    student_id = int(input("Enter Student ID: ").strip())
+    student_id = validation_id("Enter Student ID: ")
 
     left = 0
     right = len(students) - 1
@@ -60,7 +92,8 @@ def search_student():
         if students[middle]["id"] == student_id :
             student = students[middle]
 
-            print("\nStudent Found")
+            print("\n============== Student Found ==============")
+            print("----------------------------")
             print("ID", student["id"])
             print("Name", student["name"])
             print("Department", student["department"])
@@ -81,15 +114,22 @@ def update_student():
         print("No Students Found")
         return
     
-    student_id = int(input("Enter Student ID: ").strip())
+    student_id = validation_id("Enter Student ID: ")
 
     for student in students:
         if student["id"] == student_id:
 
-            student["id"] = int(input("New Student ID: ").strip())
+            new_id = validation_id("New Student ID: ")
+
+            for other_student in students:
+                if other_student["id"] == new_id and other_student is not student:
+                    print("Student ID already exists")
+                    return
+
+            student["id"] = new_id
             student["name"] = input("New Student Name: ").strip()
             student["department"] = input("New Student Department: ").strip()
-            student["gpa"] = float(input("New Student GPA: ").strip())
+            student["gpa"] = get_gpa()
 
             print("Student updated Successfully")
 
@@ -102,7 +142,7 @@ def delete_student():
         print("No Students Found")
         return
         
-    student_id = int(input("Enter Student ID: ").strip())
+    student_id = validation_id("Enter Student ID: ")
     
     for student in students:
         if student["id"] == student_id:
@@ -136,7 +176,7 @@ def main():
             case "6":
                 print("Exit")
                 break
-            case "_":                                  
+            case _:                                  
                 print("Invalid Choice")
                    
 main()
