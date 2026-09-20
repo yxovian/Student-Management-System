@@ -41,6 +41,6 @@ Enter Your Choice:
 - Data is stored in memory only; records are lost when the program exits (no file/database persistence yet).
 - Student IDs must be unique.
 
-## Author
+## License
 
-yxovian
+This project is currently unlicensed. Add a `LICENSE` file if you'd like to make reuse terms explicit
